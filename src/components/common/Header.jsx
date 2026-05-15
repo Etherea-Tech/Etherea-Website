@@ -14,6 +14,7 @@ export default function Header() {
           <Link to="/about" className="text-gray-400 hover:text-white transition-colors font-medium text-sm tracking-wide uppercase">About</Link>
           <Link to="/team" className="text-gray-400 hover:text-white transition-colors font-medium text-sm tracking-wide uppercase">Team</Link>
           <Link to="/portfolio" className="text-gray-400 hover:text-white transition-colors font-medium text-sm tracking-wide uppercase">Portfolio</Link>
+          <a href="/#contact-section" className="text-gray-400 hover:text-white transition-colors font-medium text-sm tracking-wide uppercase">Contact Us</a>
         </nav>
         
         <div className="hidden md:block">

@@ -8,7 +8,8 @@ import {
   BiPalette, BiMobile, BiWindow, BiCheckShield, BiTrendingUp,
   BiCrosshair, BiCube, BiShapeSquare, BiLayer,
   BiShapePolygon, BiWater, BiFastForward, BiPlus, BiAperture, BiBoltCircle, BiArrowFromBottom,
-  BiCheckCircle, BiSun, BiHeart, BiTransfer, BiBlock, BiFile, BiReceipt, BiEnvelope
+  BiCheckCircle, BiSun, BiHeart, BiTransfer, BiBlock, BiFile, BiReceipt, BiEnvelope,
+  BiMessageRoundedDots, BiMap, BiPhone
 } from 'react-icons/bi';
 
 // Icon Mapping
@@ -27,21 +28,88 @@ const staggerContainer = {
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
 
-// 1. Geometric Hero Section
-const FloatingGeometry = () => (
-  <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-40">
-    <motion.div animate={{ rotate: 360 }} transition={{ duration: 60, repeat: Infinity, ease: "linear" }} className="absolute w-[800px] h-[800px] border border-white/10 rounded-full" />
-    <motion.div animate={{ rotate: -360 }} transition={{ duration: 80, repeat: Infinity, ease: "linear" }} className="absolute w-[1000px] h-[1000px] border border-white/5 rounded-full" />
-    
-    <motion.div animate={{ rotate: 360, scale: [1, 1.05, 1] }} transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }} className="absolute w-[400px] h-[400px] border border-white/20 rotate-45 bg-white/[0.02] backdrop-blur-[2px]" />
-    <motion.div animate={{ rotate: -360, scale: [1, 1.1, 1] }} transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }} className="absolute w-[300px] h-[300px] border border-white/30 -rotate-12 bg-white/[0.03] backdrop-blur-[4px]" />
-  </div>
-);
+// 1. Moving Tracks Background for Hero
+const MovingTracksBackground = () => {
+  const tracks = [
+    { 
+      top: '15%', speed: 45, direction: -1, 
+      items: [
+        { w: 'w-[30vw]', gradient: 'from-gray-800 via-gray-600 to-white/10' },
+        { w: 'w-[20vw]', gradient: 'from-white/5 to-gray-900' },
+        { w: 'w-[40vw]', gradient: 'from-gray-900 via-gray-700 to-gray-500' },
+        { w: 'w-[15vw]', gradient: 'from-gray-800 to-black' }
+      ]
+    },
+    { 
+      top: '35%', speed: 35, direction: 1, 
+      items: [
+        { w: 'w-[15vw]', gradient: 'from-gray-700 to-gray-900' },
+        { w: 'w-[30vw]', gradient: 'from-white/5 via-gray-600 to-white/10' },
+        { w: 'w-[25vw]', gradient: 'from-gray-800 to-black' },
+        { w: 'w-[35vw]', gradient: 'from-black via-gray-800 to-gray-700' }
+      ]
+    },
+    { 
+      top: '55%', speed: 50, direction: -1, 
+      items: [
+        { w: 'w-[45vw]', gradient: 'from-black via-gray-800 to-white/20' },
+        { w: 'w-[20vw]', gradient: 'from-gray-700 to-gray-900' },
+        { w: 'w-[25vw]', gradient: 'from-gray-600 via-gray-800 to-black' },
+        { w: 'w-[15vw]', gradient: 'from-white/5 to-gray-800' }
+      ]
+    },
+    { 
+      top: '75%', speed: 40, direction: 1, 
+      items: [
+        { w: 'w-[30vw]', gradient: 'from-white/10 to-gray-700' },
+        { w: 'w-[20vw]', gradient: 'from-gray-900 to-gray-800' },
+        { w: 'w-[45vw]', gradient: 'from-gray-900 via-gray-700 to-black' },
+        { w: 'w-[10vw]', gradient: 'from-gray-700 to-gray-600' }
+      ]
+    }
+  ];
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 z-0">
+      {/* Grid Lines */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
+      
+      {/* Vertical subtle divider lines */}
+      <div className="absolute top-0 bottom-0 left-1/4 w-px bg-white/[0.03]"></div>
+      <div className="absolute top-0 bottom-0 left-2/4 w-px bg-white/[0.03]"></div>
+      <div className="absolute top-0 bottom-0 left-3/4 w-px bg-white/[0.03]"></div>
+
+      {tracks.map((track, i) => (
+        <div key={i} className="absolute w-full h-[80px] border-y border-white/[0.02] flex items-center" style={{ top: track.top }}>
+          <motion.div 
+            className="flex gap-12 absolute h-full items-center w-max"
+            animate={{ x: track.direction === -1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+            transition={{ repeat: Infinity, duration: track.speed, ease: "linear" }}
+          >
+            {/* Render exactly 2 sets for perfect loop at -50% */}
+            {[...Array(2)].map((_, j) => (
+              <div key={j} className="flex gap-12 shrink-0 items-center">
+                {track.items.map((item, k) => (
+                  <div 
+                    key={k} 
+                    className={`h-[40px] shrink-0 ${item.w} bg-gradient-to-r ${item.gradient} rounded-sm relative overflow-hidden backdrop-blur-md border border-white/5`}
+                  >
+                     <div className="absolute inset-0 opacity-30 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGZpbHRlciBpZD0ibiI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOCIgbnVtT2N0YXZlcz0iNCIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIvPjwvc3ZnPg==')]"></div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const Hero = () => (
-  <section className="relative min-h-screen flex items-center bg-dark bg-grid-pattern pt-20 border-b border-gray-900">
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-dark to-dark opacity-90" />
-    <FloatingGeometry />
+  <section className="relative min-h-screen flex items-center bg-dark pt-20 border-b border-gray-900 overflow-hidden">
+    <MovingTracksBackground />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-dark/80 to-dark z-0 pointer-events-none" />
     
     <div className="container-custom relative z-10 py-20 flex flex-col items-center justify-center min-h-[80vh]">
       <motion.div className="w-full max-w-6xl relative" initial="hidden" animate="visible" variants={staggerContainer}>
@@ -89,7 +157,7 @@ const TrustedBy = () => {
   ];
 
   return (
-    <section className="py-20 bg-dark border-b border-gray-900 bg-dot-pattern">
+    <section className="py-20 bg-dark border-b border-gray-900">
       <div className="container-custom max-w-7xl mx-auto relative z-10">
         <motion.p 
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
@@ -116,6 +184,7 @@ const TrustedBy = () => {
 
 // 2. Bento Box Services
 const BentoServices = () => {
+  const [hoveredIdx, setHoveredIdx] = useState(null);
   // Select 6 specific services for the bento grid to look perfect
   const bentoItems = servicesData.slice(0, 6);
   
@@ -142,29 +211,51 @@ const BentoServices = () => {
         >
           {bentoItems.map((service, idx) => {
             const Icon = IconMap[service.icon];
-            // Make first two items span 2 columns to create a true bento feel
-            const isLarge = idx === 0 || idx === 3;
+            
+            // Determine dynamic col-span for accordion effect
+            let isLarge = false;
+            if (idx < 3) {
+              if (hoveredIdx !== null && hoveredIdx < 3) {
+                isLarge = (hoveredIdx === idx);
+              } else {
+                isLarge = (idx === 0);
+              }
+            } else {
+              if (hoveredIdx !== null && hoveredIdx >= 3) {
+                isLarge = (hoveredIdx === idx);
+              } else {
+                isLarge = (idx === 3);
+              }
+            }
             
             return (
               <motion.div 
-                key={idx} variants={fadeInUp} 
-                className={`card-bento group p-8 flex flex-col ${isLarge ? 'md:col-span-2 lg:col-span-2' : 'col-span-1'} bg-gradient-to-br from-white/[0.03] to-transparent`}
+                layout
+                key={idx} 
+                variants={fadeInUp} 
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                className={`card-bento group p-8 flex flex-col bg-gradient-to-br from-white/[0.03] to-transparent overflow-hidden ${
+                  isLarge ? 'md:col-span-2 lg:col-span-2' : 'col-span-1'
+                }`}
               >
-                <div className="w-14 h-14 border border-white/20 flex items-center justify-center text-3xl text-white mb-8 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                <motion.div layout className="w-14 h-14 border border-white/20 flex items-center justify-center text-3xl text-white mb-8 group-hover:bg-white group-hover:text-black transition-colors duration-500 shrink-0">
                   {Icon && <Icon />}
-                </div>
+                </motion.div>
                 
-                <h3 className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-bold mb-4 text-white group-hover:text-gray-300 transition-colors uppercase`}>
+                <motion.h3 layout className={`${isLarge ? 'text-3xl' : 'text-xl'} font-bold mb-4 text-white group-hover:text-gray-300 transition-colors uppercase whitespace-nowrap overflow-hidden text-ellipsis`}>
                   {service.title}
-                </h3>
+                </motion.h3>
                 
-                <p className="text-gray-400 font-light leading-relaxed mb-8 flex-grow">
-                  {isLarge ? service.fullDescription.substring(0, 150) + '...' : service.shortDescription}
-                </p>
+                <motion.p layout className="text-gray-400 font-light leading-relaxed mb-8 flex-grow">
+                  {isLarge ? service.fullDescription.substring(0, 150) + '...' : service.shortDescription.substring(0, 60) + '...'}
+                </motion.p>
                 
-                <Link to={`/services/${service.slug}`} className="mt-auto inline-flex items-center text-white border-b border-transparent group-hover:border-white pb-1 transition-all self-start uppercase tracking-widest text-xs font-bold">
-                  Explore Module <BiRightArrowAlt className="ml-1 text-lg group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <motion.div layout className="mt-auto self-start">
+                  <Link to={`/services/${service.slug}`} className="inline-flex items-center text-white border-b border-transparent group-hover:border-white pb-1 transition-all uppercase tracking-widest text-xs font-bold whitespace-nowrap">
+                    Explore Module <BiRightArrowAlt className="ml-1 text-lg group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </motion.div>
               </motion.div>
             );
           })}
@@ -188,7 +279,7 @@ const TechnicalPillars = () => {
   ];
 
   return (
-    <section className="section-padding bg-dark border-y border-gray-900 bg-dot-pattern relative">
+    <section className="section-padding bg-dark border-y border-gray-900 relative">
       <div className="absolute inset-0 bg-dark/80"></div>
       
       <div className="container-custom relative z-10">
@@ -232,52 +323,6 @@ const TechnicalPillars = () => {
   );
 };
 
-// 4. Structural Stats
-const AnimatedCounter = ({ end, label }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  useEffect(() => {
-    if (isInView) {
-      let start = 0;
-      const duration = 2000;
-      const increment = end / (duration / 16);
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= end) {
-          setCount(end);
-          clearInterval(timer);
-        } else {
-          setCount(Math.ceil(start));
-        }
-      }, 16);
-      return () => clearInterval(timer);
-    }
-  }, [isInView, end]);
-
-  return (
-    <div ref={ref} className="text-center p-10 border border-gray-900 bg-dark-light hover:bg-white/[0.02] transition-colors relative group">
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
-      <h3 className="text-5xl md:text-7xl font-black text-white font-heading mb-4 tracking-tighter">{count}</h3>
-      <p className="text-gray-500 font-bold uppercase tracking-[0.2em] text-xs">{label}</p>
-    </div>
-  );
-};
-
-const Stats = () => (
-  <section className="bg-dark pb-20">
-    <div className="container-custom">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <AnimatedCounter end={10} label="Years Active" />
-        <AnimatedCounter end={250} label="Systems Built" />
-        <AnimatedCounter end={150} label="Global Partners" />
-        <AnimatedCounter end={45} label="Engineers" />
-      </div>
-    </div>
-  </section>
-);
-
 // 4.5 Testimonials
 const Testimonials = () => {
   const reviews = [
@@ -316,7 +361,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-24 bg-dark relative border-t border-gray-900 bg-grid-pattern">
+    <section className="py-24 bg-dark relative border-t border-gray-900">
       <div className="absolute inset-0 bg-dark/90"></div>
       <div className="container-custom relative z-10">
         <div className="text-center mb-16">
@@ -442,6 +487,115 @@ const FAQSection = () => {
             Get in touch
           </Link>
         </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// 4.7 Contact Section
+const ContactSection = () => {
+  return (
+    <section id="contact-section" className="py-24 bg-dark relative border-t border-gray-900">
+      <div className="absolute inset-0 bg-dark/80"></div>
+      <div className="container-custom max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-12">
+          
+          {/* Left Column */}
+          <div className="w-full lg:w-1/2">
+            <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="text-gray-400 font-bold tracking-[0.2em] text-sm uppercase mb-4">
+              Contact us
+            </motion.p>
+            <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="text-4xl md:text-5xl font-bold text-white mb-6 normal-case tracking-tight">
+              Chat to our friendly team
+            </motion.h2>
+            <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="text-gray-400 text-lg md:text-xl font-light mb-16 normal-case tracking-normal">
+              We'd love to hear from you. Please fill out this form or shoot us an email.
+            </motion.p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+                <div className="w-10 h-10 border border-gray-800 bg-dark-light rounded-lg flex items-center justify-center mb-5 text-white">
+                  <BiEnvelope className="text-xl" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2 normal-case tracking-tight">Email</h4>
+                <p className="text-gray-400 font-light text-sm mb-4 normal-case tracking-normal">Our friendly team is here to help.</p>
+                <a href="mailto:hi@heizen.work" className="text-white font-medium hover:text-gray-300 transition-colors text-sm normal-case tracking-normal">hi@heizen.work</a>
+              </motion.div>
+              
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: 0.1 }}>
+                <div className="w-10 h-10 border border-gray-800 bg-dark-light rounded-lg flex items-center justify-center mb-5 text-white">
+                  <BiMessageRoundedDots className="text-xl" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2 normal-case tracking-tight">Live chat</h4>
+                <p className="text-gray-400 font-light text-sm mb-4 normal-case tracking-normal">Our friendly team is here to help.</p>
+                <button className="text-white font-medium hover:text-gray-300 transition-colors text-sm normal-case tracking-normal">Start new chat</button>
+              </motion.div>
+
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: 0.2 }}>
+                <div className="w-10 h-10 border border-gray-800 bg-dark-light rounded-lg flex items-center justify-center mb-5 text-white">
+                  <BiMap className="text-xl" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2 normal-case tracking-tight">Office</h4>
+                <p className="text-gray-400 font-light text-sm mb-4 normal-case tracking-normal">Come say hello at our office HQ.</p>
+                <a href="#" className="text-white font-medium hover:text-gray-300 transition-colors text-sm normal-case tracking-normal leading-relaxed">
+                  100 Innovation Drive<br/>Tech City, CA 94000
+                </a>
+              </motion.div>
+
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: 0.3 }}>
+                <div className="w-10 h-10 border border-gray-800 bg-dark-light rounded-lg flex items-center justify-center mb-5 text-white">
+                  <BiPhone className="text-xl" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2 normal-case tracking-tight">Phone</h4>
+                <p className="text-gray-400 font-light text-sm mb-4 normal-case tracking-normal">Mon-Fri from 8am to 5pm.</p>
+                <a href="tel:+15550000000" className="text-white font-medium hover:text-gray-300 transition-colors text-sm normal-case tracking-normal">+1 (555) 000-0000</a>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Right Column - Form */}
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
+            className="w-full lg:w-1/2"
+          >
+            <div className="bg-dark-light border border-gray-800 rounded-3xl p-8 md:p-10 shadow-2xl">
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 normal-case tracking-normal">First name <span className="text-gray-500">*</span></label>
+                    <input type="text" placeholder="First name" className="w-full px-4 py-3.5 rounded-xl bg-black border border-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-white transition-colors placeholder-gray-600 text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 normal-case tracking-normal">Last name <span className="text-gray-500">*</span></label>
+                    <input type="text" placeholder="Last name" className="w-full px-4 py-3.5 rounded-xl bg-black border border-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-white transition-colors placeholder-gray-600 text-sm" />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2 normal-case tracking-normal">Email <span className="text-gray-500">*</span></label>
+                  <input type="email" placeholder="you@company.com" className="w-full px-4 py-3.5 rounded-xl bg-black border border-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-white transition-colors placeholder-gray-600 text-sm" />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2 normal-case tracking-normal">Message <span className="text-gray-500">*</span></label>
+                  <textarea rows="5" placeholder="Leave us a message..." className="w-full px-4 py-3.5 rounded-xl bg-black border border-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-white transition-colors placeholder-gray-600 resize-none text-sm"></textarea>
+                </div>
+                
+                <div className="flex items-start">
+                  <input type="checkbox" id="privacy" className="mt-1 w-4 h-4 rounded border-gray-800 bg-black checked:bg-white checked:border-white focus:ring-0 cursor-pointer accent-white" />
+                  <label htmlFor="privacy" className="ml-3 text-sm text-gray-400 cursor-pointer normal-case tracking-normal">
+                    You agree to our friendly <a href="#" className="underline hover:text-white transition-colors">privacy policy</a>.
+                  </label>
+                </div>
+                
+                <button type="button" className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-colors uppercase tracking-widest text-sm shadow-sm hover:-translate-y-0.5">
+                  Send message
+                </button>
+              </form>
+            </div>
+          </motion.div>
+          
+        </div>
       </div>
     </section>
   );
@@ -591,9 +745,9 @@ export default function Home() {
       <TrustedBy />
       <BentoServices />
       <TechnicalPillars />
-      <Stats />
       <Testimonials />
       <FAQSection />
+      <ContactSection />
       <NewsletterCTA />
     </div>
   );

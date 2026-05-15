@@ -13,6 +13,7 @@ const About = lazy(() => import('./pages/About'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Team = lazy(() => import('./pages/Team'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Service Detail Pages
 const AIMachineLearning = lazy(() => import('./pages/AIMachineLearning'));
@@ -58,6 +59,8 @@ function App() {
                 <Route path="/services/web-development" element={<WebDevelopment />} />
                 <Route path="/services/qa-testing" element={<QaTesting />} />
                 <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
+                
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           </main>
