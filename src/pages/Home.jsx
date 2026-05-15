@@ -11,6 +11,7 @@ import {
   BiCheckCircle, BiSun, BiHeart, BiTransfer, BiBlock, BiFile, BiReceipt, BiEnvelope,
   BiMessageRoundedDots, BiMap, BiPhone
 } from 'react-icons/bi';
+import NetworkAnimation from '../components/common/NetworkAnimation';
 
 // Icon Mapping
 const IconMap = {
@@ -304,17 +305,15 @@ const TechnicalPillars = () => {
           </motion.div>
           
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="relative h-[500px] hidden lg:flex items-center justify-center">
-            <div className="w-[400px] h-[400px] border border-gray-800 relative flex items-center justify-center">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white"></div>
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white"></div>
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white"></div>
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white"></div>
+            <div className="w-full h-full border border-gray-800 relative flex items-center justify-center overflow-hidden bg-dark-light/50">
+              {/* Corner Accents */}
+              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white z-10"></div>
+              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white z-10"></div>
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white z-10"></div>
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white z-10"></div>
               
-              <motion.div animate={{ rotate: 180 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="w-[300px] h-[300px] border border-white/10 flex items-center justify-center">
-                <motion.div animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="w-[200px] h-[200px] bg-white/5 backdrop-blur-md border border-white/20 rotate-45 flex items-center justify-center">
-                   <BiShapeSquare className="text-6xl text-white/50" />
-                </motion.div>
-              </motion.div>
+              {/* Particle Network Animation */}
+              <NetworkAnimation />
             </div>
           </motion.div>
         </div>
