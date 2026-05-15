@@ -304,7 +304,7 @@ const TechnicalPillars = () => {
             </div>
           </motion.div>
           
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="relative h-[650px] hidden lg:flex items-center justify-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="relative h-[400px] md:h-[500px] lg:h-[650px] flex items-center justify-center">
             <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
               {/* Particle Network Animation */}
               <NetworkAnimation />
