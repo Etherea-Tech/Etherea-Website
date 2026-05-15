@@ -304,14 +304,8 @@ const TechnicalPillars = () => {
             </div>
           </motion.div>
           
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="relative h-[500px] hidden lg:flex items-center justify-center">
-            <div className="w-full h-full border border-gray-800 relative flex items-center justify-center overflow-hidden bg-dark-light/50">
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white z-10"></div>
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white z-10"></div>
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white z-10"></div>
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white z-10"></div>
-              
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="relative h-[650px] hidden lg:flex items-center justify-center">
+            <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
               {/* Particle Network Animation */}
               <NetworkAnimation />
             </div>

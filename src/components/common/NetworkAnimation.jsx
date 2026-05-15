@@ -3,19 +3,19 @@ import { motion } from 'framer-motion';
 
 const NetworkAnimation = () => {
   const nodes = [
-    { id: 1, label: 'Build', x: 200 },
-    { id: 2, label: 'Test', x: 330 },
-    { id: 3, label: 'Monitor', x: 470 },
-    { id: 4, label: 'Deploy', x: 600 }
+    { id: 1, label: 'Build', x: 100 },
+    { id: 2, label: 'Test', x: 300 },
+    { id: 3, label: 'Monitor', x: 500 },
+    { id: 4, label: 'Deploy', x: 700 }
   ];
 
-  const topY = 120;
-  const bottomY = 480;
+  const topY = 100;
+  const bottomY = 500;
   const centerX = 400;
 
   return (
     <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
-      <svg viewBox="0 0 800 500" className="w-full h-full max-w-4xl mx-auto" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 800 600" className="w-full h-full max-w-5xl mx-auto scale-110" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
@@ -42,8 +42,8 @@ const NetworkAnimation = () => {
         {/* Paths and Nodes */}
         {nodes.map((node, i) => {
           // Smooth fountain curve from bottom center to node
-          const cp1Y = bottomY - 180;
-          const cp2Y = topY + 120;
+          const cp1Y = bottomY - 200;
+          const cp2Y = topY + 150;
           const pathD = `M ${centerX} ${bottomY} C ${centerX} ${cp1Y}, ${node.x} ${cp2Y}, ${node.x} ${topY}`;
           
           return (
@@ -82,6 +82,14 @@ const NetworkAnimation = () => {
           animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
+
+        {/* Etherea Tech Label at Bottom Center */}
+        <g transform={`translate(${centerX}, ${bottomY + 35})`}>
+          <rect x="-70" y="-16" width="140" height="32" rx="8" fill="#000" stroke="rgba(255,255,255,0.3)" />
+          <text x="0" y="4" fill="#ffffff" fontSize="13" fontWeight="bold" fontFamily="monospace" textAnchor="middle" letterSpacing="2">
+            ETHEREA TECH
+          </text>
+        </g>
       </svg>
       
       {/* Top overlay to fade out lines into the background smoothly */}
