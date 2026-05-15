@@ -8,7 +8,7 @@ import {
   BiPalette, BiMobile, BiWindow, BiCheckShield, BiTrendingUp,
   BiCrosshair, BiCube, BiShapeSquare, BiLayer,
   BiShapePolygon, BiWater, BiFastForward, BiPlus, BiAperture, BiBoltCircle, BiArrowFromBottom,
-  BiCheckCircle, BiSun
+  BiCheckCircle, BiSun, BiHeart, BiTransfer, BiBlock, BiFile, BiReceipt, BiEnvelope
 } from 'react-icons/bi';
 
 // Icon Mapping
@@ -364,6 +364,89 @@ const Testimonials = () => {
   );
 };
 
+// 4.6 FAQ Section
+const FAQSection = () => {
+  const faqs = [
+    {
+      icon: <BiHeart className="text-xl" />,
+      q: "Is there a free consultation available?",
+      a: "Yes, you can schedule a free 30-minute discovery call. Our team will work with you to understand your needs and map out a potential solution."
+    },
+    {
+      icon: <BiTransfer className="text-xl" />,
+      q: "Can I scale my team later?",
+      a: "Of course. Our resourcing scales with your company. Chat to our team to find a flexible engagement model that works for your current stage."
+    },
+    {
+      icon: <BiBlock className="text-xl" />,
+      q: "What is your cancellation policy?",
+      a: "We understand that things change. You can pause or cancel your engagement at any time with a standard 30-day notice period."
+    },
+    {
+      icon: <BiFile className="text-xl" />,
+      q: "How does intellectual property work?",
+      a: "You own 100% of the intellectual property we create for you. All code, design assets, and documentation are transferred to you upon completion."
+    },
+    {
+      icon: <BiReceipt className="text-xl" />,
+      q: "How does billing work?",
+      a: "We typically operate on a sprint-based retainer or fixed-price milestones depending on the project scope. We invoice transparently every two weeks."
+    },
+    {
+      icon: <BiEnvelope className="text-xl" />,
+      q: "How do we communicate?",
+      a: "We set up a dedicated Slack channel, Jira board, and weekly syncs. You'll have direct access to the engineers and product managers building your product."
+    }
+  ];
+
+  return (
+    <section className="py-24 bg-dark relative border-t border-gray-900">
+      <div className="container-custom relative z-10 max-w-7xl mx-auto">
+        <div className="mb-16">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="text-4xl md:text-5xl font-bold text-white mb-4 normal-case tracking-tight">
+            FAQs
+          </motion.h2>
+          <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="text-gray-400 text-lg md:text-xl font-light max-w-2xl normal-case tracking-normal">
+            Everything you need to know about working with us. Can't find the answer you're looking for? Please <Link to="/contact" className="underline hover:text-white transition-colors">chat to our friendly team</Link>.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 mb-16">
+          {faqs.map((faq, idx) => (
+            <motion.div 
+              key={idx}
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: idx * 0.1 }}
+            >
+              <div className="w-12 h-12 bg-dark-light border border-gray-800 rounded-xl flex items-center justify-center text-white mb-6">
+                {faq.icon}
+              </div>
+              <h4 className="text-lg font-bold text-white mb-3 normal-case tracking-tight">{faq.q}</h4>
+              <p className="text-gray-400 font-light leading-relaxed text-sm normal-case tracking-normal pr-4">
+                {faq.a}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div 
+          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
+          className="bg-dark-light border border-gray-800 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div>
+            <h4 className="text-xl font-bold text-white mb-2 normal-case tracking-tight">Still have questions?</h4>
+            <p className="text-gray-400 font-light normal-case tracking-normal">
+              Can't find the answer you're looking for? Please chat to our friendly team.
+            </p>
+          </div>
+          <Link to="/contact" className="bg-white hover:bg-gray-200 text-black px-6 py-3.5 rounded-xl font-medium transition-colors whitespace-nowrap text-sm normal-case tracking-normal shadow-sm">
+            Get in touch
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 // 5. Newsletter CTA
 const NewsletterCTA = () => (
   <section className="py-24 bg-dark relative overflow-hidden px-4 md:px-8 border-t border-gray-900">
@@ -510,6 +593,7 @@ export default function Home() {
       <TechnicalPillars />
       <Stats />
       <Testimonials />
+      <FAQSection />
       <NewsletterCTA />
     </div>
   );
